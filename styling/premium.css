@@ -1,0 +1,127 @@
+.container{
+    display: flex;
+    padding: 20px;
+    flex-wrap: wrap;
+    position: sticky;
+    right: 0;
+    left: 0;
+    top: 0;
+    z-index: 200;
+    border: 1px solid beige;
+    background-color: beige;
+}
+.head{
+    color: orangered;
+    font-size: 20px;
+    flex-grow: 4;
+    padding: 10px;
+}
+
+.language{
+    flex-grow: 1;
+    padding: 10px;
+}
+.premium{
+    background-color: darkblue;
+    color: white;
+    padding: 10px;
+    border:1px solid darkblue;
+    border-radius: 45px;
+    flex: 1;
+}
+.title{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    padding: 10px;
+}
+.end{
+    text-align: center;
+}
+
+.container2{
+    display: flex;
+    padding: 100px;
+    background-color: rgb(67, 67, 102);
+    color: white;
+}
+
+.intro{
+    color: white;
+    font-size: 50px;
+    padding: 15px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+.para1{
+    font-size: 25px;
+    padding: 15px;
+}
+.para2{
+    font-size: 23px;
+    padding: 15px;
+    color: grey;
+}
+.container2 .premium{
+    background-color: white;
+    color: darkblue;
+    padding: 10px;
+    border:1px solid darkblue;
+    border-radius: 45px;
+    width: 150px;
+}
+.container3{
+    display: flex;
+}
+.row{
+    text-align: center;
+}
+.firstRow{
+    display: flex;
+    justify-content: space-evenly;
+}
+.pricing-grid{
+    display: flex;
+    justify-content: center;
+    background-color: darkgray;
+}
+.levels ul{
+    list-style-type: none;
+    margin-left: 25px;
+}
+.levels ul li{
+    padding: 10px;
+}
+
+.levels{
+    width: 350px;
+    color: black;
+    background-color: white;
+    margin: 20px;
+    border-radius: 4px;
+    display: flex;
+    flex-wrap: wrap;
+}
+.levels h2{
+    text-align: center;
+}
+.levels > *{
+    flex: 1 1 100%;
+}
+a{
+    text-decoration: none;
+    padding: 15px;
+    color: white;
+}
+.levels .features{
+    padding: 10px;
+}
+
+.levels .pay{
+    align-self: flex-end;
+    background-color: black;
+    border-radius: 50px;
+    margin-left: 50px;
+    margin-right: 100px;
+    text-align: center;
+}
+.levels .plan{
+    text-align: center;
+}

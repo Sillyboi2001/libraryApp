@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styling/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+    <title>Welcome</title>
+</head>
+<body>
+    <div class="container">
+        <div class="head"><i class='fas fa-book'></i>E-LIBRARY</div>
+        <div class="title">Browse</div>
+        <div class="title">Writer opportunities</div>
+        <div class="title">Community</div>
+        <div class="search"><input type="text" placeholder="Search..."></div>
+        <div class="login"><a data-dismiss="modal" data-toggle="modal" data-target="#loginFormModal">Login</a></div>
+        <div class="language">
+            <form>
+                <select id="country" name="country">
+                <option value="au">English</option>
+                <option value="ca">Espanol</option>
+                <option value="usa">French</option>
+                </select>
+              </form>
+        </div>
+    </div>
+    <div class="container2">
+        <div class="column">
+        <div class="intro">Hi, welcome to E-library.</div>
+        <div class="para1">The world's most loved story telling platform</div>
+        <div class="para2">E-library connects a global community of 90 million readers and writers through the power of story.</div>
+        <div class="para3">
+            <button type="button" data-toggle="modal" data-target="#myModal">Start reading</button>
+        </div>
+        </div>
+        <div class="row">
+            <img src="./images/istockphoto-1177967778-612x612.jpg">
+        </div>
+    </div>
+    <div class="container">
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" role="dialog">
+          <div class="modal-dialog modal-sm">
+          
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"><b>Join E-library</b></h4>
+                <p>Be part of a global community of readers and writers, all connected through the power of story.</p>
+                <p class="sign"><a><i class="fa fa-facebook-official" style="font-size: 20px;"></i>  Sign up with facebook</a></p>
+                <p class="sign"><a><i class='fa fa-google-plus' style='font-size:20px'></i>  Sign up with Google+</a></p>
+                <p>If u already have an account,<button type="button" data-dismiss="modal" data-toggle="modal" data-target="#loginModal" style="border: none;background-color: white;color:cadetblue">Login</button></p>
+                <p>By continuing, you agree to E-library's <a>Terms of Service</a> and <a>Privacy Policy.</a></p>
+              </div>
+            </div>            
+          </div>
+        </div>        
+      </div>
+      <!-- Login Modal-->
+      <div class="container">
+        <!-- Modal -->
+        <div class="modal fade" id="loginModal" role="dialog">
+          <div class="modal-dialog modal-sm">
+          
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" style="padding: 20px;"><b>Login to E-library</b></h>
+                <p class="sign"><a><i class="fa fa-facebook-official" style="font-size: 20px;"></i>  Login with facebook</a></p>
+                <p class="sign"><a><i class='fa fa-google-plus' style='font-size:20px'></i>  Login with Google+</a></p>
+                <p>OR</p>
+                <p class="sign"><button type="button" data-dismiss="modal" data-toggle="modal" data-target="#loginFormModal" id="login">Login</button></p>
+                <p><a href="./html/forgetpassword.html">Forgot password?</a></p>
+              </div>
+            </div>            
+          </div>
+        </div>        
+      </div>
+      <!-- Login Form Modal-->
+      <div class="container">
+        <!-- Modal -->
+          <div class="modal fade" id="loginFormModal" role="dialog">
+              <div class="modal-dialog modal-sm">
+              <!-- Modal content-->
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal">&times;</button>
+                          <h4 class="modal-title" style="padding: 20px;"><b>Login to E-library</b></h>
+                          <form action="./html/homepage.html">
+                              <p><input type="text" placeholder="Username" class="username"></input></p>
+                              <p><input type="password" placeholder="Password" class="username"></input></p>
+                              <p class="login"><input type="submit" value="Login" style="color: white;border: none;background-color: black;width: 100%;"></input></p>
+                              <p><a href="./html/forgetpassword.html">Forgot password?</a></p>
+                          </form>
+                      </div>
+                  </div>            
+              </div>
+          </div>        
+      </div>
+</body>
+</html>
