@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
-    <link rel="stylesheet" href="./styling/login.css">
+    <link rel="stylesheet" href="../styling/login.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src='https://kit.fontawesome.com/a076d05399.js'></script>
     <title>Document</title>
@@ -15,8 +15,12 @@
         <header>E-LIBRARY</header>
     </div>
     <div class="form">
-        <form action="./html/homepage.html">
-            <h2>Sign in</h2>
+        <form action="./homepage.html">
+            <h2>Sign up</h2>
+            <div class="input-box">
+                <i class="fa fa-user" aria-hidden="true"></i>
+                <input type="text" name="" placeholder="Username">
+            </div>
             <div class="input-box">
                 <i class="fas fa-envelope" aria-hidden="true"></i>
                 <input type="text" name="" placeholder="Email">
@@ -26,10 +30,12 @@
                 <input type="password" name="" placeholder="Password">
             </div>
             <div class="input-box">
-                <input type="submit" name="" value="Login">
+                <i class="fa fa-unlock-alt" aria-hidden="true"></i>
+                <input type="password" name="" placeholder="Confirm Password">
             </div>
-            <a href="./html/signup.html">Don't have an account?Sign up</a>
-            <a href="#">Forget Password?</a>
+            <div class="input-box">
+                <input type="submit" name="" value="Signup">
+            </div>
         </form>
     </div>
 </body>
