@@ -3,20 +3,12 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const sequelize = ({ password, database, username }) => {
-  try {
-    const connection = new Sequelize({
-      host: 'localhost',
-      dialect: 'postgres',
-      password,
-      database,
-      username,
-    });
-    connection.authenticate();
-    console.log('Connection has been established successfully');
-  } catch (error) {
-    console.log('Unable to connect to the database:', error);
-  }
-};
+const sequelizeConnection = ({ password, database, username }) => new Sequelize({
+  host: 'localhost',
+  dialect: 'postgres',
+  password,
+  database,
+  username,
+});
 
-export default sequelize;
+export default sequelizeConnection;
