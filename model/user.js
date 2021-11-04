@@ -12,9 +12,4 @@ const users = sequelize.define('users', {
   password: Sequelize.STRING,
 });
 
-(async () => {
-  await sequelize.sync({ force: true });
-  // Code here
-})();
-
 export default users;
