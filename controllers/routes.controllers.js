@@ -16,8 +16,7 @@ export const createUser = async (req, res) => {
     });
     const user = { username: req.body.username };
     const token = jwt.sign(user, process.env.ACCESS_TOKEN);
-    user.token = token;
-    res.status(200).send('User created successfully');
+    res.status(200).send(`User created successfully, ${token}`);
   } catch (err) {
     res.status(500).send('Failed to create new user');
   }
@@ -29,21 +28,16 @@ export const login = async (req, res) => {
     res.status(400).send('User input required');
   }
   const user = await users.findOne({ where: { email } });
-  try {
-    if (user && await bcrypt.compare(password, user.password)) {
-      const token = jwt.sign({ username }, process.env.ACCESS_TOKEN);
-      user.token = token;
-      res.status(200).send({
-        id: user.id,
-        username: user.username,
-        email: user.email,
-        password: user.password,
-        token: user.token,
-      });
-    } else {
-      res.status(404).send('Invalid Credentials');
-    }
-  } catch (err) {
-    res.status(500).send(err);
+  if (user && await bcrypt.compare(password, user.password)) {
+    const token = jwt.sign({ username }, process.env.ACCESS_TOKEN);
+    res.status(200).send({
+      id: user.id,
+      username: user.username,
+      email: user.email,
+      password: user.password,
+      token,
+    });
+  } else {
+    res.status(404).send('Invalid Credentials');
   }
 };

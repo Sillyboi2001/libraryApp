@@ -7,4 +7,3 @@ module.exports = {
     dialect: process.env.DIALECT,
   },
 };
-console.log(process.env.PASSWORD);
