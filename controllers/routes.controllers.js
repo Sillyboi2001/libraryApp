@@ -1,9 +1,6 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import dotenv from 'dotenv';
 import users from '../model/user';
-
-dotenv.config();
 
 export const createUser = async (req, res) => {
   try {
