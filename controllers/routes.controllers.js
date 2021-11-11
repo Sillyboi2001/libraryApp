@@ -16,7 +16,7 @@ export const createUser = async (req, res) => {
     });
     const user = { username: req.body.username };
     const token = jwt.sign(user, process.env.ACCESS_TOKEN);
-    res.status(200).send(`User created successfully, ${token}`);
+    res.status(200).json(token);
   } catch (err) {
     res.status(500).send('Failed to create new user');
   }
@@ -31,10 +31,6 @@ export const login = async (req, res) => {
   if (user && await bcrypt.compare(password, user.password)) {
     const token = jwt.sign({ username }, process.env.ACCESS_TOKEN);
     res.status(200).send({
-      id: user.id,
-      username: user.username,
-      email: user.email,
-      password: user.password,
       token,
     });
   } else {

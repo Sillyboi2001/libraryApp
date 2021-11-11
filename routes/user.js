@@ -7,4 +7,5 @@ router.use(bodyParser.json());
 
 router.post('/register', createUser);
 router.post('/login', login);
+
 export default router;
