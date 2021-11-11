@@ -23,13 +23,13 @@ export const createUser = async (req, res) => {
 };
 
 export const login = async (req, res) => {
-  const { username, email, password } = req.body;
+  const { email, password } = req.body;
   if (!(email && password)) {
     res.status(400).send('User input required');
   }
   const user = await users.findOne({ where: { email } });
   if (user && await bcrypt.compare(password, user.password)) {
-    const token = jwt.sign({ username }, process.env.ACCESS_TOKEN);
+    const token = jwt.sign(user.username, process.env.ACCESS_TOKEN);
     res.status(200).send({
       token,
     });
