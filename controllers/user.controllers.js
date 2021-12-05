@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import users from '../model/user';
+import { users } from '../model/user';
 
 export const createUser = async (req, res) => {
   try {
@@ -29,6 +29,6 @@ export const login = async (req, res) => {
     const token = jwt.sign(user.username, process.env.ACCESS_TOKEN);
     res.status(200).json({ token });
   } else {
-    res.status(404).send('Invalid Credentials');
+    res.status(404).json('Invalid Credentials');
   }
 };

@@ -1,7 +1,11 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import cors from 'cors';
+import bodyParser from 'body-parser';
+import morgan from 'morgan';
 import sequelizeConnection from './config/database';
-import router from './routes/user';
+import userRoutes from './routes/user.routes';
+import bookRoutes from './routes/books.routes'
 
 dotenv.config();
 
@@ -11,10 +15,13 @@ export const sequelize = sequelizeConnection({
 });
 const app = express();
 const port = process.env.PORT;
-
+app.use(cors());
+app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(router);
+app.use(bodyParser.json());
+app.use(userRoutes);
+app.use(bookRoutes);
 
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);
