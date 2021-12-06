@@ -5,7 +5,7 @@ import bodyParser from 'body-parser';
 import morgan from 'morgan';
 import sequelizeConnection from './config/database';
 import userRoutes from './routes/user.routes';
-import bookRoutes from './routes/books.routes'
+import bookRoutes from './routes/books.routes';
 
 dotenv.config();
 
