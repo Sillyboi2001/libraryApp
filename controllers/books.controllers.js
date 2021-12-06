@@ -1,6 +1,6 @@
 import cloudinary from 'cloudinary';
 import multer from 'multer';
-import { books } from '../model/user';
+import books from '../model/book.model';
 
 export const upload = multer({ dest: 'public/files' });
 
@@ -46,7 +46,7 @@ export const findById = async (req, res) => {
   const book = await books.findOne({
     where: { id },
   });
-  if (book === null) {
+  if (!book) {
     res.status(404).send('Book not found');
   } else {
     res.status(200).send(book);
