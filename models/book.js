@@ -1,5 +1,5 @@
 import Sequelize from 'sequelize';
-import User from './user';
+import { Users } from './user';
 
 export default (sequelize, DataTypes) => {
   class Book extends Sequelize.Model {
@@ -11,7 +11,7 @@ export default (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
     }
-  };
+  }
   Book.init({
     title: DataTypes.STRING,
     description: DataTypes.STRING,
@@ -23,6 +23,6 @@ export default (sequelize, DataTypes) => {
     sequelize,
     modelName: 'Book',
   });
-  Book.User = Book.belongsTo(User(sequelize, DataTypes), { foreignKey: 'userId' });
+  Book.User = Book.belongsTo(Users(sequelize, DataTypes), { foreignKey: 'userId' });
   return Book;
 };

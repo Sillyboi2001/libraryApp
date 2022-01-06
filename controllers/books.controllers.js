@@ -1,14 +1,8 @@
 import cloudinary from 'cloudinary';
 import multer from 'multer';
 import Sequelize from 'sequelize';
+import { sequelize } from '../models/user';
 import BookModel from '../models/book';
-import sequelizeConnection from '../config/database';
-
-const { USER, DATABASE, PASSWORD } = process.env;
-
-export const sequelize = sequelizeConnection({
-  username: USER, database: DATABASE, password: PASSWORD,
-});
 
 const Book = BookModel(sequelize, Sequelize.DataTypes);
 
@@ -22,11 +16,8 @@ cloudinary.config({
 
 export const createBook = async (req, res) => {
   try {
-    const data = {
-      file: req.file.path,
-    };
-    const bookUpload = await cloudinary.uploader.upload(data.file);
-    Book.create({
+    const bookUpload = await cloudinary.uploader.upload(req.file.path);
+    await Book.create({
       title: req.body.title,
       description: req.body.description,
       author: req.body.author,
@@ -39,11 +30,11 @@ export const createBook = async (req, res) => {
         association: Book.User,
       }],
     });
-    res.status(200).json({
+    return res.status(200).json({
       message: 'Success',
     });
   } catch (err) {
-    res.status(500).json({
+    return res.status(500).json({
       message: 'Failed to create Book',
     });
   }
@@ -53,7 +44,8 @@ export const getAllBooks = async (req, res) => {
   const books = await Book.findAll({
     attributes: ['title', 'author', 'id', 'price'],
   });
-  res.json({ books });
+  if (books) return res.status(200).json(books);
+  return res.status(500).json("Couldn't get books");
 };
 
 export const getBookById = async (req, res) => {
@@ -61,11 +53,8 @@ export const getBookById = async (req, res) => {
   const item = await Book.findOne({
     where: { id },
   });
-  if (!item) {
-    res.status(404).send('Book not found');
-  } else {
-    res.status(200).send(item);
-  }
+  if (!item) return res.status(404).send('Book not found');
+  return res.status(200).send(item);
 };
 
 export const modifyBookInfo = async (req, res) => {
@@ -79,15 +68,14 @@ export const modifyBookInfo = async (req, res) => {
       fileUrl: updateBook.url,
       price: req.body.price,
     };
-    Book.update(objectToUpdate, { where: { id } }).then((result) => {
-      res.status(200).json({
+    Book.update(objectToUpdate, { where: { id } })
+      .then((result) => res.status(200).json({
         result,
         message: 'Book info updated successfully',
         book: updateBook.url,
-      });
-    });
+      }));
   } catch (err) {
-    res.status(500).json('Fail to upload info');
+    return res.status(500).json('Fail to update info');
   }
 };
 
@@ -98,13 +86,12 @@ export const uploadImageCover = async (req, res) => {
     const imageToUpdate = {
       imageUrl: uploadFile.url,
     };
-    Book.update(imageToUpdate, { where: { id } }).then((result) => {
-      res.status(200).json({
+    Book.update(imageToUpdate, { where: { id } })
+      .then((result) => res.status(200).json({
         result,
         message: uploadFile.url,
-      });
-    });
+      }));
   } catch (err) {
-    res.status(500).json('Fail to upload image');
+    return res.status(500).json('Fail to upload image');
   }
 };

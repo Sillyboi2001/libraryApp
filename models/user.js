@@ -1,7 +1,13 @@
 import { Sequelize } from 'sequelize';
-import Book from './book';
+import sequelizeConnection from '../config/database';
 
-const Users = (sequelize, DataTypes) => {
+const { USER, DATABASE, PASSWORD } = process.env;
+
+export const sequelize = sequelizeConnection({
+  username: USER, database: DATABASE, password: PASSWORD,
+});
+
+export const Users = (sequelize, DataTypes) => {
   class User extends Sequelize.Model {
     /**
      * Helper method for defining associations.
@@ -22,5 +28,3 @@ const Users = (sequelize, DataTypes) => {
   });
   return User;
 };
-
-export default Users;
