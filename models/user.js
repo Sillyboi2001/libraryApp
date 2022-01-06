@@ -28,3 +28,5 @@ export const Users = (sequelize, DataTypes) => {
   });
   return User;
 };
+
+export const user = Users(sequelize, Sequelize.DataTypes);

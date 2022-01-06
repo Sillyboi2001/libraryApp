@@ -1,10 +1,6 @@
 import cloudinary from 'cloudinary';
 import multer from 'multer';
-import Sequelize from 'sequelize';
-import { sequelize } from '../models/user';
-import BookModel from '../models/book';
-
-const Book = BookModel(sequelize, Sequelize.DataTypes);
+import { Book } from '../models/book';
 
 export const upload = multer({ dest: 'public/files' });
 

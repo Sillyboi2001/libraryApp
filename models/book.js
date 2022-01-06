@@ -1,7 +1,7 @@
 import Sequelize from 'sequelize';
-import { Users } from './user';
+import { sequelize, Users } from './user';
 
-export default (sequelize, DataTypes) => {
+export const books = (sequelize, DataTypes) => {
   class Book extends Sequelize.Model {
     /**
      * Helper method for defining associations.
@@ -26,3 +26,5 @@ export default (sequelize, DataTypes) => {
   Book.User = Book.belongsTo(Users(sequelize, DataTypes), { foreignKey: 'userId' });
   return Book;
 };
+
+export const Book = books(sequelize, Sequelize.DataTypes);

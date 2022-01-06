@@ -1,9 +1,6 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import Sequelize from 'sequelize';
-import { sequelize, Users } from '../models/user';
-
-const user = Users(sequelize, Sequelize.DataTypes);
+import { user } from '../models/user';
 
 export const createUser = async (req, res) => {
   try {
@@ -22,7 +19,7 @@ export const createUser = async (req, res) => {
     const token = jwt.sign(payload, process.env.SECRET_KEY);
     return res.status(200).json({
       token,
-      message: 'Login Successful',
+      message: 'User created Successful',
     });
   } catch (err) {
     return res.status(500).send('Failed to create new user');
@@ -39,7 +36,10 @@ export const login = async (req, res) => {
   if (result && comparePassword) {
     const { username, id } = result;
     const token = jwt.sign({ username, id }, process.env.SECRET_KEY);
-    return res.status(200).json({ token });
+    return res.status(200).json({
+      token,
+      message: 'Login suucessful',
+    });
   }
   return res.status(404).json('Invalid Credentials');
 };
