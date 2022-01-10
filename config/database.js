@@ -11,4 +11,9 @@ const sequelizeConnection = ({ password, database, username }) => new Sequelize(
   username,
 });
 
+export const db = {
+  Sequelize,
+  sequelize: sequelizeConnection,
+};
+
 export default sequelizeConnection;
