@@ -19,7 +19,7 @@ export const createUser = async (req, res) => {
     const token = jwt.sign(payload, process.env.SECRET_KEY);
     return res.status(200).json({
       token,
-      message: 'User created Successful',
+      message: 'User created Successfully',
     });
   } catch (err) {
     return res.status(500).send('Failed to create new user');

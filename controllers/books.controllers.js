@@ -1,6 +1,8 @@
 import cloudinary from 'cloudinary';
 import multer from 'multer';
+import moment from 'moment';
 import { Book } from '../models/book';
+import { rentBooks } from '../models/rentedbooks';
 
 export const upload = multer({ dest: 'public/files' });
 
@@ -9,6 +11,8 @@ cloudinary.config({
   api_key: process.env.API_KEY,
   api_secret: process.env.API_SECRET,
 });
+
+moment().format();
 
 export const createBook = async (req, res) => {
   try {
@@ -89,5 +93,39 @@ export const uploadImageCover = async (req, res) => {
       }));
   } catch (err) {
     return res.status(500).json('Fail to upload image');
+  }
+};
+
+export const rentBook = async (req, res) => {
+  try {
+    await rentBooks.create({
+      bookId: req.params.bookId,
+      userId: req.user.id,
+      rentAt: Date.now(),
+      expiredAt: Date.now() + 604800000 * 2,
+    });
+    return res.status(200).json({
+      message: 'The book has been rented successfully',
+    });
+  } catch (err) {
+    return res.status(500).json({
+      message: 'Failed to rent the book',
+    });
+  }
+};
+
+export const returnBook = (req, res) => {
+  try {
+    const { bookId } = req.params;
+    const returnABook = {
+      returnedAt: Date.now(),
+    };
+    rentBooks.update(returnABook, { where: { bookId } })
+      .then((result) => res.status(200).json({
+        result,
+        message: 'Book has been returned successfully',
+      }));
+  } catch (err) {
+    return res.status(500).json('An error occured while trying to return the book');
   }
 };
