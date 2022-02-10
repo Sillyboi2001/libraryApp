@@ -1,6 +1,5 @@
 import cloudinary from 'cloudinary';
 import multer from 'multer';
-import moment from 'moment';
 import { Book } from '../models/book';
 import { rentBooks } from '../models/rentedbooks';
 
@@ -11,8 +10,6 @@ cloudinary.config({
   api_key: process.env.API_KEY,
   api_secret: process.env.API_SECRET,
 });
-
-moment().format();
 
 export const createBook = async (req, res) => {
   try {
