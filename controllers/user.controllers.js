@@ -46,6 +46,6 @@ export const login = async (req, res) => {
 
 export const checkValidUser = (res, userData) => {
   if (Number(userData.userId) !== Number(userData.newId)) {
-    return res.status(400).json({ message: 'Invalid user id supplied' });
+    throw 'Invalid user id supplied'; // eslint-disable-line
   }
 };

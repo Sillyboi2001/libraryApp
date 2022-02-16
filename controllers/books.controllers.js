@@ -129,7 +129,8 @@ export const rentBook = async (req, res) => {
     });
     return res.status(200).json({ message: 'This book has been rented successfully' });
   } catch (err) {
-    return res.status(500).json({ err });
+    console.log(err);
+    return res.status(500).send({ err });
   }
 };
 
