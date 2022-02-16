@@ -110,39 +110,38 @@ export const deleteBook = async (req, res) => {
 export const rentBook = async (req, res) => {
   try {
     const { id } = req.body;
-    const userId = req.user.id;
+    const { id: userId } = req.user;
     const userData = {
       userId,
       newId: req.params.userId,
     };
     checkValidUser(res, userData);
-    const bookAvailable = await Book.findOne({ where: { id } });
-    if (!bookAvailable) return res.status(200).json('Book not found');
+    const availableBook = await Book.findOne({ where: { id } });
+    if (!availableBook) return res.status(200).json({ message: 'Book not found' });
     const borrowedBook = await rentBooks.findOne({ where: { bookReturned: false, bookId: id } });
     if (borrowedBook) {
-      return res.status(400).json('This book has been borrowed');
+      return res.status(400).json({ message: 'This book has been borrowed' });
     }
     await rentBooks.create({
       bookId: id,
       userId,
       bookReturned: false,
     });
-    return res.status(200).json('This book has been rented successfully');
+    return res.status(200).json({ message: 'This book has been rented successfully' });
   } catch (err) {
-    return res.status(500).json('An error occured');
+    return res.status(500).json({ err });
   }
 };
 
 export const returnBook = async (req, res) => {
   try {
-    const userId = req.user.id;
+    const { id: userId } = req.user;
     const userData = {
       userId,
       newId: req.params.userId,
     };
     checkValidUser(res, userData);
     const returnABook = {
-      updatedAt: Date.now(),
       bookReturned: true,
     };
     await rentBooks.update(returnABook, {
@@ -154,13 +153,13 @@ export const returnBook = async (req, res) => {
         message: 'Book has been returned successfully',
       }));
   } catch (err) {
-    return res.status(500).json('An error occured while trying to return the book');
+    return res.status(500).json({ err });
   }
 };
 
 export const bookNotReturned = async (req, res) => {
   try {
-    const userId = req.user.id;
+    const { id: userId } = req.user;
     const userData = {
       userId,
       newId: req.params.userId,

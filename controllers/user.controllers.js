@@ -22,14 +22,14 @@ export const createUser = async (req, res) => {
       message: 'User created Successfully',
     });
   } catch (err) {
-    return res.status(500).send('Failed to create new user');
+    return res.status(500).json({ message: 'Failed to create new user' });
   }
 };
 
 export const login = async (req, res) => {
   const { email, password } = req.body;
   if (!(email && password)) {
-    return res.status(400).send('User input required');
+    return res.status(400).json({ message: 'User input required' });
   }
   const result = await user.findOne({ where: { email } });
   const comparePassword = await bcrypt.compare(password, result.password);
@@ -41,11 +41,11 @@ export const login = async (req, res) => {
       message: 'Login successful',
     });
   }
-  return res.status(404).json('Invalid Credentials');
+  return res.status(404).json({ message: 'Invalid Credentials' });
 };
 
 export const checkValidUser = (res, userData) => {
   if (Number(userData.userId) !== Number(userData.newId)) {
-    return res.status(400).json('Invalid user id supplied');
+    return res.status(400).json({ message: 'Invalid user id supplied' });
   }
 };
