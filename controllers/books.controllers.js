@@ -1,6 +1,8 @@
 import cloudinary from 'cloudinary';
 import multer from 'multer';
-import { Book } from '../models/book';
+import { Book, books } from '../models/book';
+import { checkValidUser } from './user.controllers';
+import { rentBooks } from '../models/rentedbooks';
 
 export const upload = multer({ dest: 'public/files' });
 
@@ -89,5 +91,90 @@ export const uploadImageCover = async (req, res) => {
       }));
   } catch (err) {
     return res.status(500).json('Fail to upload image');
+  }
+};
+
+export const deleteBook = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await Book.destroy({ where: { id } });
+    return res.status(200).json({
+      message: 'Book has been deleted successfully',
+      id,
+    });
+  } catch (err) {
+    return res.status(500).json({ err });
+  }
+};
+
+export const rentBook = async (req, res) => {
+  try {
+    const { id } = req.body;
+    const { id: userId } = req.user;
+    const userData = {
+      userId,
+      newId: req.params.userId,
+    };
+    checkValidUser(res, userData);
+    const availableBook = await Book.findOne({ where: { id } });
+    if (!availableBook) return res.status(200).json({ message: 'Book not found' });
+    const borrowedBook = await rentBooks.findOne({ where: { bookReturned: false, bookId: id } });
+    if (borrowedBook) {
+      return res.status(400).json({ message: 'This book has been borrowed' });
+    }
+    await rentBooks.create({
+      bookId: id,
+      userId,
+      bookReturned: false,
+    });
+    return res.status(200).json({ message: 'This book has been rented successfully' });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send({ err });
+  }
+};
+
+export const returnBook = async (req, res) => {
+  try {
+    const { id: userId } = req.user;
+    const userData = {
+      userId,
+      newId: req.params.userId,
+    };
+    checkValidUser(res, userData);
+    const returnABook = {
+      bookReturned: true,
+    };
+    await rentBooks.update(returnABook, {
+      where:
+      { bookId: req.body.bookId, bookReturned: false, userId },
+    })
+      .then((result) => res.status(200).json({
+        result,
+        message: 'Book has been returned successfully',
+      }));
+  } catch (err) {
+    return res.status(500).json({ err });
+  }
+};
+
+export const bookNotReturned = async (req, res) => {
+  try {
+    const { id: userId } = req.user;
+    const userData = {
+      userId,
+      newId: req.params.userId,
+    };
+    checkValidUser(res, userData);
+    const unreturnedBooks = await rentBooks.findAll({
+      attributes: ['id', 'bookReturned', 'bookId'],
+      where: {
+        bookReturned: req.query.bookReturned,
+        userId,
+      },
+    });
+    return res.status(200).json({ unreturnedBooks });
+  } catch (err) {
+    return res.status(500).json({ err });
   }
 };

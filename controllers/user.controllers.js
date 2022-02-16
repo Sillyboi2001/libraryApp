@@ -19,17 +19,17 @@ export const createUser = async (req, res) => {
     const token = jwt.sign(payload, process.env.SECRET_KEY);
     return res.status(200).json({
       token,
-      message: 'User created Successful',
+      message: 'User created Successfully',
     });
   } catch (err) {
-    return res.status(500).send('Failed to create new user');
+    return res.status(500).json({ message: 'Failed to create new user' });
   }
 };
 
 export const login = async (req, res) => {
   const { email, password } = req.body;
   if (!(email && password)) {
-    return res.status(400).send('User input required');
+    return res.status(400).json({ message: 'User input required' });
   }
   const result = await user.findOne({ where: { email } });
   const comparePassword = await bcrypt.compare(password, result.password);
@@ -38,8 +38,14 @@ export const login = async (req, res) => {
     const token = jwt.sign({ username, id }, process.env.SECRET_KEY);
     return res.status(200).json({
       token,
-      message: 'Login suucessful',
+      message: 'Login successful',
     });
   }
-  return res.status(404).json('Invalid Credentials');
+  return res.status(404).json({ message: 'Invalid Credentials' });
+};
+
+export const checkValidUser = (res, userData) => {
+  if (Number(userData.userId) !== Number(userData.newId)) {
+    throw 'Invalid user id supplied'; // eslint-disable-line
+  }
 };
