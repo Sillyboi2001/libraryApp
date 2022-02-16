@@ -1,6 +1,7 @@
 import cloudinary from 'cloudinary';
 import multer from 'multer';
-import { Book } from '../models/book';
+import { Book, books } from '../models/book';
+import { checkValidUser } from './user.controllers';
 import { rentBooks } from '../models/rentedbooks';
 
 export const upload = multer({ dest: 'public/files' });
@@ -93,36 +94,87 @@ export const uploadImageCover = async (req, res) => {
   }
 };
 
-export const rentBook = async (req, res) => {
+export const deleteBook = async (req, res) => {
   try {
-    await rentBooks.create({
-      bookId: req.params.bookId,
-      userId: req.user.id,
-      rentAt: Date.now(),
-      expiredAt: Date.now() + 604800000 * 2,
-    });
+    const { id } = req.params;
+    await Book.destroy({ where: { id } });
     return res.status(200).json({
-      message: 'The book has been rented successfully',
+      message: 'Book has been deleted successfully',
+      id: req.params.id,
     });
   } catch (err) {
-    return res.status(500).json({
-      message: 'Failed to rent the book',
-    });
+    return res.status(500).json({ err });
   }
 };
 
-export const returnBook = (req, res) => {
+export const rentBook = async (req, res) => {
   try {
-    const { bookId } = req.params;
-    const returnABook = {
-      returnedAt: Date.now(),
+    const { id } = req.body;
+    const userId = req.user.id;
+    const userData = {
+      userId,
+      newId: req.params.userId,
     };
-    rentBooks.update(returnABook, { where: { bookId } })
+    checkValidUser(res, userData);
+    const bookAvailable = await Book.findOne({ where: { id } });
+    if (!bookAvailable) return res.status(200).json('Book not found');
+    const borrowedBook = await rentBooks.findOne({ where: { bookReturned: false, bookId: id } });
+    if (borrowedBook) {
+      return res.status(400).json('This book has been borrowed');
+    }
+    await rentBooks.create({
+      bookId: id,
+      userId,
+      bookReturned: false,
+    });
+    return res.status(200).json('This book has been rented successfully');
+  } catch (err) {
+    return res.status(500).json('An error occured');
+  }
+};
+
+export const returnBook = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const userData = {
+      userId,
+      newId: req.params.userId,
+    };
+    checkValidUser(res, userData);
+    const returnABook = {
+      updatedAt: Date.now(),
+      bookReturned: true,
+    };
+    await rentBooks.update(returnABook, {
+      where:
+      { bookId: req.body.bookId, bookReturned: false, userId },
+    })
       .then((result) => res.status(200).json({
         result,
         message: 'Book has been returned successfully',
       }));
   } catch (err) {
     return res.status(500).json('An error occured while trying to return the book');
+  }
+};
+
+export const bookNotReturned = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const userData = {
+      userId,
+      newId: req.params.userId,
+    };
+    checkValidUser(res, userData);
+    const unreturnedBooks = await rentBooks.findAll({
+      attributes: ['id', 'bookReturned', 'bookId'],
+      where: {
+        bookReturned: req.query.bookReturned,
+        userId,
+      },
+    });
+    return res.status(200).json({ unreturnedBooks });
+  } catch (err) {
+    return res.status(500).json({ err });
   }
 };

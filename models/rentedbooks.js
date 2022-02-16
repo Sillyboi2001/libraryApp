@@ -14,9 +14,7 @@ export const rentBook = (sequelize, DataTypes) => {
     }
   };
   rentedbooks.init({
-    rentAt: DataTypes.DATE,
-    expiredAt: DataTypes.DATE,
-    returnedAt: DataTypes.DATE,
+    bookReturned: DataTypes.BOOLEAN,
   }, {
     sequelize,
     modelName: 'rentedbooks',

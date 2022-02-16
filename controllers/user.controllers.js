@@ -38,8 +38,14 @@ export const login = async (req, res) => {
     const token = jwt.sign({ username, id }, process.env.SECRET_KEY);
     return res.status(200).json({
       token,
-      message: 'Login suucessful',
+      message: 'Login successful',
     });
   }
   return res.status(404).json('Invalid Credentials');
+};
+
+export const checkValidUser = (res, userData) => {
+  if (Number(userData.userId) !== Number(userData.newId)) {
+    return res.status(400).json('Invalid user id supplied');
+  }
 };

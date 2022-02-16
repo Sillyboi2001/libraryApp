@@ -7,14 +7,8 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      rentAt: {
-        type: Sequelize.DATE,
-      },
-      expiredAt: {
-        type: Sequelize.DATE,
-      },
-      returnedAt: {
-        type: Sequelize.DATE,
+      bookReturned: {
+        type: Sequelize.BOOLEAN,
       },
       createdAt: {
         allowNull: false,
