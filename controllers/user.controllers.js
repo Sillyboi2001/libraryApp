@@ -27,21 +27,25 @@ export const createUser = async (req, res) => {
 };
 
 export const login = async (req, res) => {
-  const { email, password } = req.body;
-  if (!(email && password)) {
-    return res.status(400).json({ message: 'User input required' });
+  try {
+    const { email, password } = req.body;
+    if (!(email && password)) {
+      return res.status(400).json({ message: 'User input required' });
+    }
+    const result = await user.findOne({ where: { email } });
+    const comparePassword = await bcrypt.compare(password, result.password);
+    if (result && comparePassword) {
+      const { username, id } = result;
+      const token = jwt.sign({ username, id }, process.env.SECRET_KEY);
+      return res.status(200).json({
+        token,
+        message: 'Login successful',
+      });
+    }
+    return res.status(404).json({ message: 'Invalid Credentials' });
+  } catch (err) {
+    res.status(500).json({ err });
   }
-  const result = await user.findOne({ where: { email } });
-  const comparePassword = await bcrypt.compare(password, result.password);
-  if (result && comparePassword) {
-    const { username, id } = result;
-    const token = jwt.sign({ username, id }, process.env.SECRET_KEY);
-    return res.status(200).json({
-      token,
-      message: 'Login successful',
-    });
-  }
-  return res.status(404).json({ message: 'Invalid Credentials' });
 };
 
 export const checkValidUser = (res, userData) => {

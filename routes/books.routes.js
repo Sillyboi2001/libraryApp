@@ -7,7 +7,7 @@ import verifyToken from '../auth/jwtAuthentication';
 
 const bookRoutes = express.Router();
 
-bookRoutes.post('/api/books', verifyToken, upload.single('bookFile'), createBook);
+bookRoutes.post('/api/books', upload.single('bookFile'), verifyToken, createBook);
 bookRoutes.get('/api/books', getAllBooks);
 bookRoutes.get('/api/books/:id', getBookById);
 bookRoutes.put('/api/books/:id', upload.single('bookFile'), modifyBookInfo);

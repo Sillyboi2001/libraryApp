@@ -33,7 +33,7 @@ export const createBook = async (req, res) => {
     });
   } catch (err) {
     return res.status(500).json({
-      message: 'Failed to create Book',
+      err,
     });
   }
 };
@@ -129,7 +129,6 @@ export const rentBook = async (req, res) => {
     });
     return res.status(200).json({ message: 'This book has been rented successfully' });
   } catch (err) {
-    console.log(err);
     return res.status(500).send({ err });
   }
 };
