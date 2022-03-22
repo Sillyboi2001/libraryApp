@@ -30,6 +30,7 @@ export const createBook = async (req, res) => {
     });
     return res.status(200).json({
       message: 'Success',
+
     });
   } catch (err) {
     return res.status(500).json({
@@ -43,7 +44,7 @@ export const getAllBooks = async (req, res) => {
     attributes: ['title', 'author', 'id', 'price'],
   });
   if (books) return res.status(200).json(books);
-  return res.status(500).json("Couldn't get books");
+  return res.status(400).json("Couldn't get books");
 };
 
 export const getBookById = async (req, res) => {
@@ -73,7 +74,7 @@ export const modifyBookInfo = async (req, res) => {
         book: updateBook.url,
       }));
   } catch (err) {
-    return res.status(500).json('Fail to update info');
+    return res.status(400).json('Fail to update info');
   }
 };
 
@@ -90,20 +91,17 @@ export const uploadImageCover = async (req, res) => {
         message: uploadFile.url,
       }));
   } catch (err) {
-    return res.status(500).json('Fail to upload image');
+    return res.status(400).json('Fail to upload image');
   }
 };
 
 export const deleteBook = async (req, res) => {
   try {
     const { id } = req.params;
-    await Book.destroy({ where: { id } });
-    return res.status(200).json({
-      message: 'Book has been deleted successfully',
-      id,
-    });
+    await Book.destroy({ where: { id }})
+    return res.status(200).json({message: 'Book has been deleted successfully'})
   } catch (err) {
-    return res.status(500).json({ err });
+    return res.status(404).json({ message: 'Book not found' });
   }
 };
 
@@ -117,7 +115,7 @@ export const rentBook = async (req, res) => {
     };
     checkValidUser(res, userData);
     const availableBook = await Book.findOne({ where: { id } });
-    if (!availableBook) return res.status(200).json({ message: 'Book not found' });
+    if (!availableBook) return res.status(201).json({ message: 'Book not found' });
     const borrowedBook = await rentBooks.findOne({ where: { bookReturned: false, bookId: id } });
     if (borrowedBook) {
       return res.status(400).json({ message: 'This book has been borrowed' });

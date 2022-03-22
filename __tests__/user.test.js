@@ -1,6 +1,10 @@
 import request from 'supertest';
 import { describe, it, expect } from '@jest/globals';
-import app from '../index';
+import jwt from 'jsonwebtoken'
+import app from '../app';
+
+export const userToken = {};
+export const userToken1 = {};
 
 describe('Post endpoints', () => {
   it('Should create a new user', async () => {
@@ -11,9 +15,46 @@ describe('Post endpoints', () => {
         email: 'mike@gmail.com',
         password: 'nekky',
       });
+      const { token } = res.body;
+      userToken.token = token;
+      userToken.userId = jwt.decode(userToken.token).id;
     expect(res.status).toEqual(200);
   });
 });
+
+it('Should create a new user', async () => {
+  const res = await request(app)
+    .post('/api/users/signup')
+    .send({
+      username: 'Kindness',
+      email: 'kindness@gmail.com',
+      password: 'nekky',
+    });
+    const { token } = res.body;
+    userToken1.token = token;
+    userToken1.userId = jwt.decode(userToken1.token).id;
+  expect(res.status).toEqual(200);
+});
+
+it('Should check if a user exists', async () => {
+  const res = await request(app)
+  .post('/api/users/signup')
+  .send({
+    username: 'killermine',
+    email: 'mike@gmail.com',
+    password: 'nekky',
+  })
+  expect(res.status).toEqual(409);
+})
+
+it('Should throw an error if input is empty', async () => {
+  const res = await request(app)
+    .post('/api/users/signup')
+    .send({});
+  expect(res.status).toEqual(500);
+});
+
+
 
 it('Should login a user', async () => {
   const res = await request(app)
@@ -22,6 +63,8 @@ it('Should login a user', async () => {
       email: 'mike@gmail.com',
       password: 'nekky',
     });
+    const { token } = res.body;
+    userToken.token = token;
   expect(res.status).toEqual(200);
 });
 
@@ -41,3 +84,14 @@ it('should validate a user credentials', async () => {
     });
   expect(res.status).toEqual(404);
 });
+
+it("should return an error message when a user doesn't exist", async () => {
+  const res = await request(app)
+  .post('/api/users/signin')
+  .send({
+    email: 'nna@gmail.com',
+    password: 'minny',
+  });
+  expect(res.status).toEqual(500)
+});
+
