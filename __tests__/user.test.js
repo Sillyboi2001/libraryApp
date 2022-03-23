@@ -1,6 +1,6 @@
 import request from 'supertest';
 import { describe, it, expect } from '@jest/globals';
-import jwt from 'jsonwebtoken'
+import jwt from 'jsonwebtoken';
 import app from '../app';
 
 export const userToken = {};
@@ -15,10 +15,12 @@ describe('Post endpoints', () => {
         email: 'mike@gmail.com',
         password: 'nekky',
       });
-      const { token } = res.body;
-      userToken.token = token;
-      userToken.userId = jwt.decode(userToken.token).id;
+    const { token } = res.body;
+    userToken.token = token;
+    userToken.userId = jwt.decode(userToken.token).id;
     expect(res.status).toEqual(200);
+    expect(res.body).toHaveProperty('message', 'User created Successfully');
+    expect(res.body).toHaveProperty('token');
   });
 });
 
@@ -30,31 +32,33 @@ it('Should create a new user', async () => {
       email: 'kindness@gmail.com',
       password: 'nekky',
     });
-    const { token } = res.body;
-    userToken1.token = token;
-    userToken1.userId = jwt.decode(userToken1.token).id;
+  const { token } = res.body;
+  userToken1.token = token;
+  userToken1.userId = jwt.decode(userToken1.token).id;
   expect(res.status).toEqual(200);
+  expect(res.body).toHaveProperty('message', 'User created Successfully');
+  expect(res.body).toHaveProperty('token');
 });
 
 it('Should check if a user exists', async () => {
   const res = await request(app)
-  .post('/api/users/signup')
-  .send({
-    username: 'killermine',
-    email: 'mike@gmail.com',
-    password: 'nekky',
-  })
+    .post('/api/users/signup')
+    .send({
+      username: 'killermine',
+      email: 'mike@gmail.com',
+      password: 'nekky',
+    });
   expect(res.status).toEqual(409);
-})
+  expect(res.body).toHaveProperty('message', 'User Already Exist. Please Login');
+});
 
 it('Should throw an error if input is empty', async () => {
   const res = await request(app)
     .post('/api/users/signup')
     .send({});
   expect(res.status).toEqual(500);
+  expect(res.body).toHaveProperty('message', 'Failed to create user');
 });
-
-
 
 it('Should login a user', async () => {
   const res = await request(app)
@@ -63,9 +67,11 @@ it('Should login a user', async () => {
       email: 'mike@gmail.com',
       password: 'nekky',
     });
-    const { token } = res.body;
-    userToken.token = token;
+  const { token } = res.body;
+  userToken.token = token;
   expect(res.status).toEqual(200);
+  expect(res.body).toHaveProperty('token');
+  expect(res.body).toHaveProperty('message', 'Login successful');
 });
 
 it('User should input his login credentials', async () => {
@@ -73,6 +79,7 @@ it('User should input his login credentials', async () => {
     .post('/api/users/signin')
     .send({});
   expect(res.status).toEqual(400);
+  expect(res.body).toHaveProperty('message', 'User input required');
 });
 
 it('should validate a user credentials', async () => {
@@ -83,15 +90,16 @@ it('should validate a user credentials', async () => {
       password: 'ninie',
     });
   expect(res.status).toEqual(404);
+  expect(res.body).toHaveProperty('message', 'Invalid Credentials');
 });
 
 it("should return an error message when a user doesn't exist", async () => {
   const res = await request(app)
-  .post('/api/users/signin')
-  .send({
-    email: 'nna@gmail.com',
-    password: 'minny',
-  });
-  expect(res.status).toEqual(500)
+    .post('/api/users/signin')
+    .send({
+      email: 'nna@gmail.com',
+      password: 'minny',
+    });
+  expect(res.status).toEqual(500);
+  expect(res.body).toHaveProperty('message', "User doesn't exist. Please signup");
 });
-
