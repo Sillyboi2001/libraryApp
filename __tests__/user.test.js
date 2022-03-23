@@ -19,8 +19,10 @@ describe('Post endpoints', () => {
     userToken.token = token;
     userToken.userId = jwt.decode(userToken.token).id;
     expect(res.status).toEqual(200);
-    expect(res.body).toHaveProperty('message', 'User created Successfully');
-    expect(res.body).toHaveProperty('token');
+    expect(res.body).toEqual({
+      message: 'User created Successfully',
+      token,
+    });
   });
 });
 
@@ -36,8 +38,10 @@ it('Should create a new user', async () => {
   userToken1.token = token;
   userToken1.userId = jwt.decode(userToken1.token).id;
   expect(res.status).toEqual(200);
-  expect(res.body).toHaveProperty('message', 'User created Successfully');
-  expect(res.body).toHaveProperty('token');
+  expect(res.body).toEqual({
+    message: 'User created Successfully',
+    token,
+  });
 });
 
 it('Should check if a user exists', async () => {
@@ -49,7 +53,7 @@ it('Should check if a user exists', async () => {
       password: 'nekky',
     });
   expect(res.status).toEqual(409);
-  expect(res.body).toHaveProperty('message', 'User Already Exist. Please Login');
+  expect(res.body).toEqual({ message: 'User Already Exist. Please Login' });
 });
 
 it('Should throw an error if input is empty', async () => {
@@ -57,7 +61,7 @@ it('Should throw an error if input is empty', async () => {
     .post('/api/users/signup')
     .send({});
   expect(res.status).toEqual(500);
-  expect(res.body).toHaveProperty('message', 'Failed to create user');
+  expect(res.body).toEqual({ message: 'Failed to create user' });
 });
 
 it('Should login a user', async () => {
@@ -70,8 +74,10 @@ it('Should login a user', async () => {
   const { token } = res.body;
   userToken.token = token;
   expect(res.status).toEqual(200);
-  expect(res.body).toHaveProperty('token');
-  expect(res.body).toHaveProperty('message', 'Login successful');
+  expect(res.body).toEqual({
+    message: 'Login successful',
+    token,
+  });
 });
 
 it('User should input his login credentials', async () => {
@@ -79,7 +85,7 @@ it('User should input his login credentials', async () => {
     .post('/api/users/signin')
     .send({});
   expect(res.status).toEqual(400);
-  expect(res.body).toHaveProperty('message', 'User input required');
+  expect(res.body).toEqual({ message: 'User input required' });
 });
 
 it('should validate a user credentials', async () => {
@@ -90,7 +96,7 @@ it('should validate a user credentials', async () => {
       password: 'ninie',
     });
   expect(res.status).toEqual(404);
-  expect(res.body).toHaveProperty('message', 'Invalid Credentials');
+  expect(res.body).toEqual({ message: 'Invalid Credentials' });
 });
 
 it("should return an error message when a user doesn't exist", async () => {
@@ -101,5 +107,5 @@ it("should return an error message when a user doesn't exist", async () => {
       password: 'minny',
     });
   expect(res.status).toEqual(500);
-  expect(res.body).toHaveProperty('message', "User doesn't exist. Please signup");
+  expect(res.body).toEqual({ message: "User doesn't exist. Please signup" });
 });

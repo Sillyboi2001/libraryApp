@@ -21,36 +21,36 @@ describe('Post endpoints', () => {
       .field('price', '$10')
       .attach('bookFile', file);
     expect(res.status).toEqual(401);
-    expect(res.body).toEqual('Invalid login');
+    expect(res.body).toEqual({ message: 'Invalid login' });
   });
+});
 
-  it('Should block access if an invalid token is passed in', async () => {
-    const res = await request(app)
-      .post('/api/books')
-      .set('content-type', 'multipart/form-data')
-      .set('authorization', 'nvffgh')
-      .field('title', 'The rich also cry')
-      .field('description', 'A story that shows the suffering of the rich')
-      .field('author', 'Silasmanas')
-      .field('price', '$10')
-      .attach('bookFile', file);
-    expect(res.status).toEqual(401);
-    expect(res.body).toEqual('Invalid token');
-  });
+it('Should block access if an invalid token is passed in', async () => {
+  const res = await request(app)
+    .post('/api/books')
+    .set('content-type', 'multipart/form-data')
+    .set('authorization', 'nvffgh')
+    .field('title', 'The rich also cry')
+    .field('description', 'A story that shows the suffering of the rich')
+    .field('author', 'Silasmanas')
+    .field('price', '$10')
+    .attach('bookFile', file);
+  expect(res.status).toEqual(401);
+  expect(res.body).toEqual({ message: 'Invalid token' });
+});
 
-  it('Should create a book', async () => {
-    const res = await request(app)
-      .post('/api/books')
-      .set('content-type', 'multipart/form-data')
-      .set('authorization', userToken.token)
-      .field('title', 'The rich also cry')
-      .field('description', 'A story that shows the suffering of the rich')
-      .field('author', 'Silasmanas')
-      .field('price', '$10')
-      .attach('bookFile', file);
-    expect(res.status).toEqual(200);
-    expect(res.body).toHaveProperty('message', 'Success');
-  });
+it('Should create a book', async () => {
+  const res = await request(app)
+    .post('/api/books')
+    .set('content-type', 'multipart/form-data')
+    .set('authorization', userToken.token)
+    .field('title', 'The rich also cry')
+    .field('description', 'A story that shows the suffering of the rich')
+    .field('author', 'Silasmanas')
+    .field('price', '$10')
+    .attach('bookFile', file);
+  expect(res.status).toEqual(200);
+  expect(res.body).toEqual({ message: 'Success' });
 });
 
 it('Create a book', async () => {
@@ -64,7 +64,7 @@ it('Create a book', async () => {
     .field('price', '$5')
     .attach('bookFile', file);
   expect(res.status).toEqual(200);
-  expect(res.body).toHaveProperty('message', 'Success');
+  expect(res.body).toEqual({ message: 'Success' });
 });
 
 it('Get all books', async () => {
@@ -95,8 +95,12 @@ it('modify a book info', async () => {
     .field('author', 'Nicolas')
     .field('price', '$15')
     .attach('bookFile', file);
+  const { result } = res.body;
   expect(res.status).toEqual(200);
-  expect(res.body).toHaveProperty('message', 'Book info updated successfully');
+  expect(res.body).toEqual({
+    message: 'Book info updated successfully',
+    result,
+  });
 });
 
 it("Can't modify a book info", async () => {
@@ -109,7 +113,7 @@ it("Can't modify a book info", async () => {
     .field('author', 'Nicolas')
     .field('price', '$15');
   expect(res.status).toEqual(400);
-  expect(res.body).toHaveProperty('message', 'Fail to update info');
+  expect(res.body).toEqual({ message: 'Fail to update info' });
 });
 
 it('Upload a book cover image', async () => {
@@ -118,8 +122,12 @@ it('Upload a book cover image', async () => {
     .set('content-type', 'multipart/form-data')
     .set('authorization', userToken.token)
     .attach('img', file2);
+  const { result } = res.body;
   expect(res.status).toEqual(200);
-  expect(res.body).toHaveProperty('message', 'Success');
+  expect(res.body).toEqual({
+    message: 'Success',
+    result,
+  });
 });
 
 it("Can't upload a book cover image when the file is absent", async () => {
@@ -132,7 +140,7 @@ it("Can't upload a book cover image when the file is absent", async () => {
     .field('author', 'Nicolas')
     .field('price', '$15');
   expect(res.status).toEqual(400);
-  expect(res.body).toHaveProperty('message', 'Fail to upload image');
+  expect(res.body).toEqual({ message: 'Fail to upload image' });
 });
 
 it('Delete a book by id', async () => {
@@ -140,7 +148,7 @@ it('Delete a book by id', async () => {
     .delete('/api/books/3')
     .set('authorization', userToken.token);
   expect(res.status).toEqual(200);
-  expect(res.body).toHaveProperty('message', 'Book has been deleted successfully');
+  expect(res.body).toEqual({ message: 'Book has been deleted successfully' });
 });
 
 it('User should rent a book', async () => {
@@ -151,7 +159,7 @@ it('User should rent a book', async () => {
       id: 2,
     });
   expect(res.status).toEqual(200);
-  expect(res.body).toHaveProperty('message', 'This book has been rented successfully');
+  expect(res.body).toEqual({ message: 'This book has been rented successfully' });
 });
 
 it('Should check an unavalilable book', async () => {
@@ -162,7 +170,7 @@ it('Should check an unavalilable book', async () => {
       id: 20,
     });
   expect(res.status).toEqual(404);
-  expect(res.body).toHaveProperty('message', 'Book not found');
+  expect(res.body).toEqual({ message: 'Book not found' });
 });
 
 it("User can't rent a book that has been borrowed", async () => {
@@ -182,11 +190,12 @@ it('throw an error if an invalid user id is supplied', async () => {
     .send({
       id: 2,
     });
+  const { err } = res.body;
   expect(res.status).toEqual(500);
-  expect(res.body).toHaveProperty('err', 'Invalid user id supplied');
+  expect(res.body).toEqual({ err });
 });
 
-it('`Should get all unreturned books by a user', async () => {
+it('Should get all unreturned books by a user', async () => {
   const res = await request(app)
     .get(`/api/users/${userToken1.userId}/books?bookReturned=false`)
     .set('authorization', userToken1.token);
@@ -202,6 +211,10 @@ it('User should return a borrowed book', async () => {
     .send({
       bookId: 2,
     });
+  const { result } = res.body;
   expect(res.status).toEqual(200);
-  expect(res.body).toHaveProperty('message', 'Book has been returned successfully');
+  expect(res.body).toEqual({
+    message: 'Book has been returned successfully',
+    result,
+  });
 });
