@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1648035653906" clover="3.2.0">
-  <project timestamp="1648035653906" name="All files">
-    <metrics statements="150" coveredstatements="145" conditionals="24" coveredconditionals="22" methods="24" coveredmethods="21" elements="198" coveredelements="188" complexity="0" loc="150" ncloc="150" packages="6" files="10" classes="10"/>
+<coverage generated="1648037753878" clover="3.2.0">
+  <project timestamp="1648037753878" name="All files">
+    <metrics statements="150" coveredstatements="147" conditionals="24" coveredconditionals="22" methods="24" coveredmethods="21" elements="198" coveredelements="190" complexity="0" loc="150" ncloc="150" packages="6" files="10" classes="10"/>
     <package name="libraryApp.io">
       <metrics statements="11" coveredstatements="11" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       <file name="app.js" path="/Users/silasokpugie/libraryApp.io/app.js">
@@ -24,12 +24,12 @@
       <file name="jwtAuthentication.js" path="/Users/silasokpugie/libraryApp.io/auth/jwtAuthentication.js">
         <metrics statements="7" coveredstatements="7" conditionals="4" coveredconditionals="4" methods="2" coveredmethods="2"/>
         <line num="3" count="2" type="stmt"/>
-        <line num="4" count="17" type="stmt"/>
-        <line num="5" count="17" type="cond" truecount="2" falsecount="0"/>
-        <line num="7" count="16" type="stmt"/>
-        <line num="8" count="16" type="cond" truecount="2" falsecount="0"/>
-        <line num="9" count="15" type="stmt"/>
-        <line num="10" count="15" type="stmt"/>
+        <line num="4" count="19" type="stmt"/>
+        <line num="5" count="19" type="cond" truecount="2" falsecount="0"/>
+        <line num="7" count="18" type="stmt"/>
+        <line num="8" count="18" type="cond" truecount="2" falsecount="0"/>
+        <line num="9" count="17" type="stmt"/>
+        <line num="10" count="17" type="stmt"/>
       </file>
     </package>
     <package name="libraryApp.io.config">
@@ -42,9 +42,9 @@
       </file>
     </package>
     <package name="libraryApp.io.controllers">
-      <metrics statements="99" coveredstatements="94" conditionals="20" coveredconditionals="18" methods="15" coveredmethods="15"/>
+      <metrics statements="99" coveredstatements="96" conditionals="20" coveredconditionals="18" methods="15" coveredmethods="15"/>
       <file name="books.controllers.js" path="/Users/silasokpugie/libraryApp.io/controllers/books.controllers.js">
-        <metrics statements="71" coveredstatements="66" conditionals="8" coveredconditionals="6" methods="12" coveredmethods="12"/>
+        <metrics statements="71" coveredstatements="68" conditionals="8" coveredconditionals="6" methods="12" coveredmethods="12"/>
         <line num="7" count="2" type="stmt"/>
         <line num="9" count="2" type="stmt"/>
         <line num="15" count="2" type="stmt"/>
@@ -100,22 +100,22 @@
         <line num="129" count="1" type="stmt"/>
         <line num="131" count="1" type="stmt"/>
         <line num="135" count="2" type="stmt"/>
-        <line num="136" count="1" type="stmt"/>
-        <line num="137" count="1" type="stmt"/>
-        <line num="138" count="1" type="stmt"/>
-        <line num="142" count="1" type="stmt"/>
+        <line num="136" count="2" type="stmt"/>
+        <line num="137" count="2" type="stmt"/>
+        <line num="138" count="2" type="stmt"/>
+        <line num="142" count="2" type="stmt"/>
         <line num="143" count="1" type="stmt"/>
         <line num="146" count="1" type="stmt"/>
         <line num="150" count="1" type="stmt"/>
-        <line num="155" count="0" type="stmt"/>
+        <line num="155" count="1" type="stmt"/>
         <line num="159" count="2" type="stmt"/>
-        <line num="160" count="1" type="stmt"/>
-        <line num="161" count="1" type="stmt"/>
-        <line num="162" count="1" type="stmt"/>
-        <line num="166" count="1" type="stmt"/>
+        <line num="160" count="2" type="stmt"/>
+        <line num="161" count="2" type="stmt"/>
+        <line num="162" count="2" type="stmt"/>
+        <line num="166" count="2" type="stmt"/>
         <line num="167" count="1" type="stmt"/>
         <line num="174" count="1" type="stmt"/>
-        <line num="176" count="0" type="stmt"/>
+        <line num="176" count="1" type="stmt"/>
       </file>
       <file name="user.controllers.js" path="/Users/silasokpugie/libraryApp.io/controllers/user.controllers.js">
         <metrics statements="28" coveredstatements="28" conditionals="12" coveredconditionals="12" methods="3" coveredmethods="3"/>
@@ -145,8 +145,8 @@
         <line num="45" count="2" type="stmt"/>
         <line num="47" count="2" type="stmt"/>
         <line num="51" count="2" type="stmt"/>
-        <line num="52" count="6" type="cond" truecount="2" falsecount="0"/>
-        <line num="53" count="1" type="stmt"/>
+        <line num="52" count="8" type="cond" truecount="2" falsecount="0"/>
+        <line num="53" count="3" type="stmt"/>
       </file>
     </package>
     <package name="libraryApp.io.models">

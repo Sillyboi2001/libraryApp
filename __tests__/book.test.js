@@ -204,6 +204,18 @@ it('Should get all unreturned books by a user', async () => {
   expect(res.body).toEqual({ unreturnedBooks });
 });
 
+it('throw an error if an invalid user id is supplied', async () => {
+  const res = await request(app)
+    .get('/api/users/10/books?bookReturned=false')
+    .set('authorization', userToken1.token)
+    .send({
+      id: 2,
+    });
+  const { err } = res.body;
+  expect(res.status).toEqual(500);
+  expect(res.body).toEqual({ err });
+});
+
 it('User should return a borrowed book', async () => {
   const res = await request(app)
     .put(`/api/users/${userToken1.userId}/books`)
@@ -217,4 +229,16 @@ it('User should return a borrowed book', async () => {
     message: 'Book has been returned successfully',
     result,
   });
+});
+
+it('throw an error if an invalid user id is supplied', async () => {
+  const res = await request(app)
+    .put('/api/users/6/books')
+    .set('authorization', userToken1.token)
+    .send({
+      id: 2,
+    });
+  const { err } = res.body;
+  expect(res.status).toEqual(500);
+  expect(res.body).toEqual({ err });
 });
