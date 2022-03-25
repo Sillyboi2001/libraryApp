@@ -6,7 +6,7 @@ export const createUser = async (req, res) => {
   try {
     const oldUser = await user.findOne({ where: { email: req.body.email } });
     if (oldUser) {
-      return res.status(409).send('User Already Exist. Please Login');
+      return res.status(409).json({ message: 'User Already Exist. Please Login' });
     }
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
@@ -22,26 +22,30 @@ export const createUser = async (req, res) => {
       message: 'User created Successfully',
     });
   } catch (err) {
-    return res.status(500).json({ message: 'Failed to create new user' });
+    return res.status(500).json({ message: 'Failed to create user' });
   }
 };
 
 export const login = async (req, res) => {
-  const { email, password } = req.body;
-  if (!(email && password)) {
-    return res.status(400).json({ message: 'User input required' });
+  try {
+    const { email, password } = req.body;
+    if (!(email && password)) {
+      return res.status(400).json({ message: 'User input required' });
+    }
+    const result = await user.findOne({ where: { email } });
+    const comparePassword = await bcrypt.compare(password, result.password);
+    if (result && comparePassword) {
+      const { username, id } = result;
+      const token = jwt.sign({ username, id }, process.env.SECRET_KEY);
+      return res.status(200).json({
+        token,
+        message: 'Login successful',
+      });
+    }
+    return res.status(404).json({ message: 'Invalid Credentials' });
+  } catch (err) {
+    res.status(500).json({ message: "User doesn't exist. Please signup" });
   }
-  const result = await user.findOne({ where: { email } });
-  const comparePassword = await bcrypt.compare(password, result.password);
-  if (result && comparePassword) {
-    const { username, id } = result;
-    const token = jwt.sign({ username, id }, process.env.SECRET_KEY);
-    return res.status(200).json({
-      token,
-      message: 'Login successful',
-    });
-  }
-  return res.status(404).json({ message: 'Invalid Credentials' });
 };
 
 export const checkValidUser = (res, userData) => {

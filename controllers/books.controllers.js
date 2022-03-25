@@ -1,6 +1,6 @@
 import cloudinary from 'cloudinary';
 import multer from 'multer';
-import { Book, books } from '../models/book';
+import { Book } from '../models/book';
 import { checkValidUser } from './user.controllers';
 import { rentBooks } from '../models/rentedbooks';
 
@@ -33,17 +33,20 @@ export const createBook = async (req, res) => {
     });
   } catch (err) {
     return res.status(500).json({
-      message: 'Failed to create Book',
+      err,
     });
   }
 };
 
 export const getAllBooks = async (req, res) => {
-  const books = await Book.findAll({
-    attributes: ['title', 'author', 'id', 'price'],
-  });
-  if (books) return res.status(200).json(books);
-  return res.status(500).json("Couldn't get books");
+  try {
+    const books = await Book.findAll({
+      attributes: ['title', 'author', 'id', 'price'],
+    });
+    if (books) return res.status(200).json({ books });
+  } catch (err) {
+    return res.status(400).json({ err });
+  }
 };
 
 export const getBookById = async (req, res) => {
@@ -52,7 +55,7 @@ export const getBookById = async (req, res) => {
     where: { id },
   });
   if (!item) return res.status(404).send('Book not found');
-  return res.status(200).send(item);
+  return res.status(200).json({ item });
 };
 
 export const modifyBookInfo = async (req, res) => {
@@ -70,10 +73,9 @@ export const modifyBookInfo = async (req, res) => {
       .then((result) => res.status(200).json({
         result,
         message: 'Book info updated successfully',
-        book: updateBook.url,
       }));
   } catch (err) {
-    return res.status(500).json('Fail to update info');
+    return res.status(400).json({ message: 'Fail to update info' });
   }
 };
 
@@ -87,10 +89,10 @@ export const uploadImageCover = async (req, res) => {
     Book.update(imageToUpdate, { where: { id } })
       .then((result) => res.status(200).json({
         result,
-        message: uploadFile.url,
+        message: 'Success',
       }));
   } catch (err) {
-    return res.status(500).json('Fail to upload image');
+    return res.status(400).json({ message: 'Fail to upload image' });
   }
 };
 
@@ -98,12 +100,9 @@ export const deleteBook = async (req, res) => {
   try {
     const { id } = req.params;
     await Book.destroy({ where: { id } });
-    return res.status(200).json({
-      message: 'Book has been deleted successfully',
-      id,
-    });
+    return res.status(200).json({ message: 'Book has been deleted successfully' });
   } catch (err) {
-    return res.status(500).json({ err });
+    return res.status(404).json({ message: 'Book not found' });
   }
 };
 
@@ -117,7 +116,7 @@ export const rentBook = async (req, res) => {
     };
     checkValidUser(res, userData);
     const availableBook = await Book.findOne({ where: { id } });
-    if (!availableBook) return res.status(200).json({ message: 'Book not found' });
+    if (!availableBook) return res.status(404).json({ message: 'Book not found' });
     const borrowedBook = await rentBooks.findOne({ where: { bookReturned: false, bookId: id } });
     if (borrowedBook) {
       return res.status(400).json({ message: 'This book has been borrowed' });
@@ -129,7 +128,6 @@ export const rentBook = async (req, res) => {
     });
     return res.status(200).json({ message: 'This book has been rented successfully' });
   } catch (err) {
-    console.log(err);
     return res.status(500).send({ err });
   }
 };

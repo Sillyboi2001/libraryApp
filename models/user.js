@@ -1,10 +1,10 @@
 import { Sequelize } from 'sequelize';
 import sequelizeConnection from '../config/database';
 
-const { USER, DATABASE, PASSWORD } = process.env;
+const { USERNAME, DATABASE, PASSWORD } = process.env;
 
 export const sequelize = sequelizeConnection({
-  username: USER, database: DATABASE, password: PASSWORD,
+  username: USERNAME, database: DATABASE, password: PASSWORD,
 });
 
 export const Users = (sequelize, DataTypes) => {

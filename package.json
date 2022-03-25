@@ -5,15 +5,24 @@
   "main": "src/index.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon --exec babel-node src/index.js",
     "build": "babel src --out-dir build",
-    "run:migration": "npx sequelize-cli db:migrate",
+    "migrate": "npx sequelize-cli db:migrate",
+    "migrate:reset": "npx sequelize-cli db:migrate:undo:all && npm run migrate",
+    "test": "cross-env NODE_ENV=test jest --coverage --testTimeout=10000 --forceExit",
+    "pretest": "cross-env NODE_ENV=test npm run migrate:reset",
     "start": "nodemon --experimental-modules --es-module-specifier-resolution=node index.js"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@jest/globals": "^27.5.1",
     "bcrypt": "^5.0.1",
     "body-parser": "^1.19.0",
     "cloudinary": "^1.27.1",
@@ -37,9 +46,14 @@
     "@babel/core": "^7.15.8",
     "@babel/preset-env": "^7.15.8",
     "babel-register": "^6.26.0",
-    "eslint": "^7.32.0",
-    "eslint-config-airbnb-base": "^14.2.1",
-    "eslint-plugin-import": "^2.24.2",
+    "cross-env": "^7.0.3",
+    "eslint": "^8.11.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-react": "^7.29.4",
+    "eslint-plugin-react-hooks": "^4.3.0",
     "jest": "^27.5.1",
     "nodemon": "^2.0.13",
     "sequelize-cli": "^6.2.0",
