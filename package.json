@@ -23,6 +23,7 @@
   "license": "ISC",
   "dependencies": {
     "@jest/globals": "^27.5.1",
+    "babel": "^6.23.0",
     "bcrypt": "^5.0.1",
     "body-parser": "^1.19.0",
     "cloudinary": "^1.27.1",
@@ -45,6 +46,7 @@
     "@babel/cli": "^7.15.7",
     "@babel/core": "^7.15.8",
     "@babel/preset-env": "^7.15.8",
+    "@babel/preset-react": "^7.16.7",
     "babel-register": "^6.26.0",
     "cross-env": "^7.0.3",
     "eslint": "^8.11.0",
