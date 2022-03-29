@@ -19,5 +19,8 @@ app.use(bodyParser.json());
 app.use(userRoutes);
 app.use(bookRoutes);
 
-app.get('/', (req, res) => res.status(200).json({ message: 'Welcome to rent book Api' }));
+app.get('/', (req, res) => {
+  res.status(200).json({ message: 'Welcome to rent book Api' });
+});
+
 export default app;
