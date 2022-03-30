@@ -22,6 +22,7 @@ export const createUser = async (req, res) => {
       message: 'User created Successfully',
     });
   } catch (err) {
+    console.log(err)
     return res.status(500).json({ message: 'Failed to create user' });
   }
 };
