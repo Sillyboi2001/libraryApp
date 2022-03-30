@@ -6,14 +6,14 @@ module.exports = {
   development: {
     username: process.env.USERNAME,
     password: process.env.PASSWORD,
-    database: process.env.DATABASE,
+    database: process.env.DATABASE_URL1,
     host: process.env.HOST,
     dialect: process.env.DIALECT,
   },
   test: {
     username: process.env.USERNAME,
     password: process.env.PASSWORD,
-    database: process.env.DATABASE,
+    database: process.env.DATABASE_URL1,
     host: process.env.HOST,
     dialect: process.env.DIALECT,
   },
@@ -22,6 +22,6 @@ module.exports = {
     password: process.env.PASSWORD,
     database: process.env.DATABASE,
     host: process.env.HOST,
-    dialect: process.env.DIALECT,
+    dialect: process.env.DATABASE_URL1,
   },
 };
