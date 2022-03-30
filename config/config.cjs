@@ -18,12 +18,12 @@ module.exports = {
     dialect: process.env.DIALECT,
   },
   production: {
-    use_env_variable: 'DATABASE_URL1',
+    use_env_variable: 'DATABASE_URL',
     dialect: 'postgres',
     dialectOptions: {
       ssl: {
         require: true,
-        rejectUnauthorized: false, // <<<<<<< YOU NEED THIS TO FIX UNHANDLED REJECTION 
+        rejectUnauthorized: false,
       },
     },
   },
