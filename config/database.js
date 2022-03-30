@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const sequelizeConnection = () => new Sequelize(process.env.DATABASE_URL1, { dialect: process.env.DIALECT});
+const sequelizeConnection = () => new Sequelize(process.env.DATABASE_URL1);
 
 export const db = {
   Sequelize,
