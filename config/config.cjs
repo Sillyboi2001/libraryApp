@@ -18,7 +18,7 @@ module.exports = {
     dialect: process.env.DIALECT,
   },
   production: {
-    use_env_variable: 'DATABASE_URL',
+    use_env_variable: 'DATABASE_URL1',
     dialect: 'postgres',
     dialectOptions: {
       ssl: {
