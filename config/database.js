@@ -3,13 +3,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const sequelizeConnection = ({ password, database, username }) => new Sequelize({
-  host: 'localhost',
-  dialect: 'postgres',
-  password,
-  database,
-  username,
-});
+const sequelizeConnection = () => new Sequelize(process.env.DATABASE_URL);
 
 export const db = {
   Sequelize,

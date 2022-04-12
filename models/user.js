@@ -1,11 +1,7 @@
 import { Sequelize } from 'sequelize';
 import sequelizeConnection from '../config/database';
 
-const { USERNAME, DATABASE, PASSWORD } = process.env;
-
-export const sequelize = sequelizeConnection({
-  username: USERNAME, database: DATABASE, password: PASSWORD,
-});
+export const sequelize = sequelizeConnection();
 
 export const Users = (sequelize, DataTypes) => {
   class User extends Sequelize.Model {

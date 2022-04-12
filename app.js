@@ -9,10 +9,7 @@ import bookRoutes from './routes/books.routes';
 
 dotenv.config();
 
-const { USERNAME, DATABASE, PASSWORD } = process.env;
-export const sequelize = sequelizeConnection({
-  username: USERNAME, database: DATABASE, password: PASSWORD,
-});
+export const sequelize = sequelizeConnection();
 const app = express();
 app.use(cors());
 app.use(morgan('dev'));
@@ -21,5 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(userRoutes);
 app.use(bookRoutes);
+
+app.get('/', (req, res) => res.status(200).json({ message: 'Welcome to rent book Api' }));
 
 export default app;
