@@ -162,6 +162,16 @@ it('User should rent a book', async () => {
   expect(res.body).toEqual({ message: 'This book has been rented successfully' });
 });
 
+it("User can't rent a book that has been borrowed", async () => {
+  const res = await request(app)
+    .post(`/api/users/${userToken1.userId}/books`)
+    .set('authorization', userToken1.token)
+    .send({
+      id: 2,
+    });
+  expect(res.status).toEqual(400);
+});
+
 it('Should check an unavalilable book', async () => {
   const res = await request(app)
     .post(`/api/users/${userToken1.userId}/books`)
@@ -171,16 +181,6 @@ it('Should check an unavalilable book', async () => {
     });
   expect(res.status).toEqual(404);
   expect(res.body).toEqual({ message: 'Book not found' });
-});
-
-it("User can't rent a book that has been borrowed", async () => {
-  const res = await request(app)
-    .post(`/api/users/${userToken.userId}/books`)
-    .set('authorization', userToken.token)
-    .send({
-      id: 2,
-    });
-  expect(res.status).toEqual(400);
 });
 
 it('throw an error if an invalid user id is supplied', async () => {
