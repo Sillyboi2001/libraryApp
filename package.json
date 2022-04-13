@@ -5,7 +5,6 @@
   "main": "src/index.js",
   "type": "module",
   "scripts": {
-    "build": "babel ../libraryApp.io -d build",
     "dev": "nodemon --exec babel-node src/index.js",
     "migrate": "npx sequelize-cli db:migrate",
     "migrate:reset": "npx sequelize-cli db:migrate:undo:all && npm run migrate",
