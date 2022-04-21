@@ -12,7 +12,7 @@
     "test": "cross-env NODE_ENV=test jest --coverage --testTimeout=10000 --forceExit",
     "pretest": "cross-env NODE_ENV=test npm run migrate:reset",
     "startdev": "nodemon --experimental-modules --es-module-specifier-resolution=node index.js",
-    "start": "node --experimental-modules --es-module-specifier-resolution=node index.js"
+    "start": "node index.js"
   },
   "jest": {
     "testEnvironment": "node",
