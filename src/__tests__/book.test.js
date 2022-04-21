@@ -17,7 +17,7 @@ describe('Post endpoints', () => {
       .set('authorization', '')
       .field('title', 'The rich also cry')
       .field('description', 'A story that shows the suffering of the rich')
-      .field('author', 'Silasmanas')
+      .field('author', 'Silasmanass')
       .field('price', '$10')
       .attach('bookFile', file);
     expect(res.status).toEqual(401);
