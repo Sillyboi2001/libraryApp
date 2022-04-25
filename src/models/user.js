@@ -1,5 +1,5 @@
 import { Sequelize } from 'sequelize';
-import sequelizeConnection from '../../config/database';
+import sequelizeConnection from '../config/database';
 
 export const sequelize = sequelizeConnection();
 
