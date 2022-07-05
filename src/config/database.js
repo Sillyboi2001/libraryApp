@@ -3,14 +3,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const sequelizeConnection = () => new Sequelize(process.env.DATABASE_URL, {
-  dialectOptions: {
-    ssl: {
-      require: true,
-      rejectUnauthorized: false,
-    },
-  },
-});
+const sequelizeConnection = () => new Sequelize(process.env.DATABASE_URL);
 
 export const db = {
   Sequelize,

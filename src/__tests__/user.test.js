@@ -14,15 +14,15 @@ describe('Post endpoints', () => {
         username: 'killermine',
         email: 'mike@gmail.com',
         password: 'nekky',
-      });
+      })
     const { token } = res.body;
     userToken.token = token;
     userToken.userId = jwt.decode(userToken.token).id;
     expect(res.status).toEqual(200);
     expect(res.body).toEqual({
-      message: 'User created Successfully',
+      message: expect.any(String),
       token,
-    });
+    })
   });
 });
 
@@ -39,7 +39,7 @@ it('Should create a new user', async () => {
   userToken1.userId = jwt.decode(userToken1.token).id;
   expect(res.status).toEqual(200);
   expect(res.body).toEqual({
-    message: 'User created Successfully',
+    message: expect.any(String),
     token,
   });
 });
@@ -53,7 +53,7 @@ it('Should check if a user exists', async () => {
       password: 'nekky',
     });
   expect(res.status).toEqual(409);
-  expect(res.body).toEqual({ message: 'User Already Exist. Please Login' });
+  expect(res.body).toEqual({ message: expect.any(String), });
 });
 
 it('Should throw an error if input is empty', async () => {
@@ -61,7 +61,7 @@ it('Should throw an error if input is empty', async () => {
     .post('/api/users/signup')
     .send({});
   expect(res.status).toEqual(500);
-  expect(res.body).toEqual({ message: 'Failed to create user' });
+  expect(res.body).toEqual({ message: expect.any(String), });
 });
 
 it('Should login a user', async () => {
@@ -75,7 +75,7 @@ it('Should login a user', async () => {
   userToken.token = token;
   expect(res.status).toEqual(200);
   expect(res.body).toEqual({
-    message: 'Login successful',
+    message: expect.any(String),
     token,
   });
 });
@@ -85,7 +85,7 @@ it('User should input his login credentials', async () => {
     .post('/api/users/signin')
     .send({});
   expect(res.status).toEqual(400);
-  expect(res.body).toEqual({ message: 'User input required' });
+  expect(res.body).toEqual({ message: expect.any(String) });
 });
 
 it('should validate a user credentials', async () => {
@@ -96,7 +96,7 @@ it('should validate a user credentials', async () => {
       password: 'ninie',
     });
   expect(res.status).toEqual(404);
-  expect(res.body).toEqual({ message: 'Invalid Credentials' });
+  expect(res.body).toEqual({ message: expect.any(String) });
 });
 
 it("should return an error message when a user doesn't exist", async () => {
@@ -107,5 +107,5 @@ it("should return an error message when a user doesn't exist", async () => {
       password: 'minny',
     });
   expect(res.status).toEqual(500);
-  expect(res.body).toEqual({ message: "User doesn't exist. Please signup" });
+  expect(res.body).toEqual({ message: expect.any(String) });
 });
