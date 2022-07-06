@@ -1,7 +1,7 @@
 import request from 'supertest';
 import { describe, it, expect } from '@jest/globals';
 import dotenv from 'dotenv';
-import app from '../app';
+import app from '../../app';
 import { userToken, userToken1 } from './user.test';
 
 dotenv.config();

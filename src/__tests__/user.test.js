@@ -1,7 +1,7 @@
 import request from 'supertest';
 import { describe, it, expect } from '@jest/globals';
 import jwt from 'jsonwebtoken';
-import app from '../app';
+import app from '../../app';
 
 export const userToken = {};
 export const userToken1 = {};
