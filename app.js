@@ -3,9 +3,9 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import morgan from 'morgan';
-import sequelizeConnection from './config/database';
-import userRoutes from './routes/user.routes';
-import bookRoutes from './routes/books.routes';
+import sequelizeConnection from './src/config/database';
+import userRoutes from './src/routes/user.routes';
+import bookRoutes from './src/routes/books.routes';
 
 dotenv.config();
 
